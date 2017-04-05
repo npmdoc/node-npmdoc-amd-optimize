@@ -1,0 +1,75 @@
+<svg height="1150" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="1150" fill="#555" width="720"></rect>
+<text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
+<tspan x="10" y="26">└─┬ amd-optimize@0.6.1 </tspan>
+<tspan x="10" y="42">  ├── acorn@0.9.0 </tspan>
+<tspan x="10" y="58">  ├─┬ ast-types@0.3.38 </tspan>
+<tspan x="10" y="74">  │ └── private@0.1.7 </tspan>
+<tspan x="10" y="90">  ├── async@0.2.10 </tspan>
+<tspan x="10" y="106">  ├─┬ escodegen@1.8.1 </tspan>
+<tspan x="10" y="122">  │ ├── esprima@2.7.3 </tspan>
+<tspan x="10" y="138">  │ ├── estraverse@1.9.3 </tspan>
+<tspan x="10" y="154">  │ ├── esutils@2.0.2 </tspan>
+<tspan x="10" y="170">  │ ├─┬ optionator@0.8.2 </tspan>
+<tspan x="10" y="186">  │ │ ├── deep-is@0.1.3 </tspan>
+<tspan x="10" y="202">  │ │ ├── fast-levenshtein@2.0.6 </tspan>
+<tspan x="10" y="218">  │ │ ├── levn@0.3.0 </tspan>
+<tspan x="10" y="234">  │ │ ├── prelude-ls@1.1.2 </tspan>
+<tspan x="10" y="250">  │ │ ├── type-check@0.3.2 </tspan>
+<tspan x="10" y="266">  │ │ └── wordwrap@1.0.0 </tspan>
+<tspan x="10" y="282">  │ └─┬ source-map@0.2.0 </tspan>
+<tspan x="10" y="298">  │   └── amdefine@1.0.1 </tspan>
+<tspan x="10" y="314">  ├── lodash@2.4.2 </tspan>
+<tspan x="10" y="330">  ├─┬ through2@0.4.2 </tspan>
+<tspan x="10" y="346">  │ ├─┬ readable-stream@1.0.34 </tspan>
+<tspan x="10" y="362">  │ │ ├── core-util-is@1.0.2 </tspan>
+<tspan x="10" y="378">  │ │ ├── inherits@2.0.3 </tspan>
+<tspan x="10" y="394">  │ │ ├── isarray@0.0.1 </tspan>
+<tspan x="10" y="410">  │ │ └── string_decoder@0.10.31 </tspan>
+<tspan x="10" y="426">  │ └─┬ xtend@2.1.2 </tspan>
+<tspan x="10" y="442">  │   └── object-keys@0.4.0 </tspan>
+<tspan x="10" y="458">  ├─┬ vinyl@0.2.3 </tspan>
+<tspan x="10" y="474">  │ └── clone-stats@0.0.1 </tspan>
+<tspan x="10" y="490">  ├─┬ vinyl-fs@0.3.14 </tspan>
+<tspan x="10" y="506">  │ ├─┬ defaults@1.0.3 </tspan>
+<tspan x="10" y="522">  │ │ └── clone@1.0.2 </tspan>
+<tspan x="10" y="538">  │ ├─┬ glob-stream@3.1.18 </tspan>
+<tspan x="10" y="554">  │ │ ├─┬ glob@4.5.3 </tspan>
+<tspan x="10" y="570">  │ │ │ ├─┬ inflight@1.0.6 </tspan>
+<tspan x="10" y="586">  │ │ │ │ └── wrappy@1.0.2 </tspan>
+<tspan x="10" y="602">  │ │ │ └── once@1.4.0 </tspan>
+<tspan x="10" y="618">  │ │ ├─┬ glob2base@0.0.12 </tspan>
+<tspan x="10" y="634">  │ │ │ └── find-index@0.1.1 </tspan>
+<tspan x="10" y="650">  │ │ ├─┬ minimatch@2.0.10 </tspan>
+<tspan x="10" y="666">  │ │ │ └─┬ brace-expansion@1.1.6 </tspan>
+<tspan x="10" y="682">  │ │ │   ├── balanced-match@0.4.2 </tspan>
+<tspan x="10" y="698">  │ │ │   └── concat-map@0.0.1 </tspan>
+<tspan x="10" y="714">  │ │ ├── ordered-read-streams@0.1.0 </tspan>
+<tspan x="10" y="730">  │ │ ├─┬ through2@0.6.5 </tspan>
+<tspan x="10" y="746">  │ │ │ └── xtend@4.0.1 </tspan>
+<tspan x="10" y="762">  │ │ └── unique-stream@1.0.0 </tspan>
+<tspan x="10" y="778">  │ ├─┬ glob-watcher@0.0.6 </tspan>
+<tspan x="10" y="794">  │ │ └─┬ gaze@0.5.2 </tspan>
+<tspan x="10" y="810">  │ │   └─┬ globule@0.1.0 </tspan>
+<tspan x="10" y="826">  │ │     ├─┬ glob@3.1.21 </tspan>
+<tspan x="10" y="842">  │ │     │ ├── graceful-fs@1.2.3 </tspan>
+<tspan x="10" y="858">  │ │     │ └── inherits@1.0.2 </tspan>
+<tspan x="10" y="874">  │ │     ├── lodash@1.0.2 </tspan>
+<tspan x="10" y="890">  │ │     └─┬ minimatch@0.2.14 </tspan>
+<tspan x="10" y="906">  │ │       ├── lru-cache@2.7.3 </tspan>
+<tspan x="10" y="922">  │ │       └── sigmund@1.0.1 </tspan>
+<tspan x="10" y="938">  │ ├─┬ graceful-fs@3.0.11 </tspan>
+<tspan x="10" y="954">  │ │ └── natives@1.1.0 </tspan>
+<tspan x="10" y="970">  │ ├─┬ mkdirp@0.5.1 </tspan>
+<tspan x="10" y="986">  │ │ └── minimist@0.0.8 </tspan>
+<tspan x="10" y="1002">  │ ├─┬ strip-bom@1.0.0 </tspan>
+<tspan x="10" y="1018">  │ │ ├── first-chunk-stream@1.0.0 </tspan>
+<tspan x="10" y="1034">  │ │ └── is-utf8@0.2.1 </tspan>
+<tspan x="10" y="1050">  │ ├─┬ through2@0.6.5 </tspan>
+<tspan x="10" y="1066">  │ │ └── xtend@4.0.1 </tspan>
+<tspan x="10" y="1082">  │ └─┬ vinyl@0.4.6 </tspan>
+<tspan x="10" y="1098">  │   └── clone@0.2.0 </tspan>
+<tspan x="10" y="1114">  └─┬ vinyl-sourcemaps-apply@0.1.4 </tspan>
+<tspan x="10" y="1130">    └── source-map@0.1.43</tspan>
+</text>
+</svg>
