@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/scalableminds/amd-optimize#readme"
-
-    >amd-optimize (v0.6.1)</a>
+    <a href="https://github.com/scalableminds/amd-optimize#readme">amd-optimize (v0.6.1)</a>
 </h1>
 <h4>An AMD (i.e. RequireJS) optimizer that's stream-friendly. Made for gulp. (WIP)</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.amd-optimize">module amd-optimize</a><ol>
 
@@ -260,7 +253,7 @@
     options = {};
   }
   options = _.defaults(options, {
-    baseUrl: &#x22;&#x22;,
+    baseUrl: "",
     configFile: null,
     exclude: [],
     excludeShallow: [],
@@ -311,7 +304,7 @@
             } else {
               return callback(null, modules, _(excludedModules).map(function(module) {
                 return collectModules(module);
-              }).flatten().pluck(&#x22;name&#x22;).unique().value());
+              }).flatten().pluck("name").unique().value());
             }
           });
         } else {
@@ -323,11 +316,11 @@
           return _.contains(excludedModuleNames, module.name) || _.contains(options.excludeShallow, module.name);
         });
         exportStream = exportModule(options);
-        exportStream.on(&#x22;data&#x22;, function(file) {
+        exportStream.on("data", function(file) {
           return mainStream.push(file);
-        }).on(&#x22;end&#x22;, function() {
+        }).on("end", function() {
           return callback();
-        }).on(&#x22;error&#x22;, callback);
+        }).on("error", callback);
         modules.forEach(exportStream.write.bind(exportStream));
         return exportStream.end();
       }
@@ -364,17 +357,17 @@
     delete module.file.ast;
     if (!module.hasDefine) {
       defineReturnStatement = b.returnStatement(module.exports ? b.identifier(module.exports) : null);
-      if (options.wrapShim &#x26;&#x26; module.isShimmed) {
+      if (options.wrapShim &amp;&amp; module.isShimmed) {
         defineBody = ast.body.concat([defineReturnStatement]);
       } else {
         defineBody = [defineReturnStatement];
       }
-      defineCall = b.callExpression(b.identifier(&#x22;define&#x22;), [
+      defineCall = b.callExpression(b.identifier("define"), [
         b.literal(module.name), b.arrayExpression(module.deps.map(function(dep) {
           return b.literal(dep.name);
         })), b.functionExpression(null, [], b.blockStatement(defineBody))
       ]);
-      if (options.wrapShim &#x26;&#x26; module.isShimmed) {
+      if (options.wrapShim &amp;&amp; module.isShimmed) {
         ast.body = [b.expressionStatement(defineCall)];
       } else {
         ast.body.push(b.expressionStatement(defineCall));
@@ -382,20 +375,20 @@
     } else if (module.isAnonymous) {
       module.astNodes.forEach((function(_this) {
         return function(astNode) {
-          if (astNode.callee.name === &#x22;define&#x22; &#x26;&#x26; (astNode[&#x22;arguments&#x22;].length === 1 || (astNode[&#x22;arguments&#x22;].length === 2 &#x26;&#x26; astNode
-[&#x22;arguments&#x22;][0].type === &#x22;ArrayExpression&#x22;))) {
-            return astNode[&#x22;arguments&#x22;] = [
+          if (astNode.callee.name === "define" &amp;&amp; (astNode["arguments"].length === 1 || (astNode["arguments"].length === 2 &amp;&amp; astNode
+["arguments"][0].type === "ArrayExpression"))) {
+            return astNode["arguments"] = [
               b.literal(module.name), b.arrayExpression(module.deps.map(function(dep) {
                 return b.literal(dep.name);
-              })), _.last(astNode[&#x22;arguments&#x22;])
+              })), _.last(astNode["arguments"])
             ];
           }
         };
       })(this));
     }
-    if (module.hasDefine &#x26;&#x26; module.isShimmed) {
+    if (module.hasDefine &amp;&amp; module.isShimmed) {
       ast.body = [b.expressionStatement(b.callExpression(b.memberExpression(b.functionExpression(null, [], b.blockStatement(ast.
-body)), b.identifier(&#x22;call&#x22;), false), [b.thisExpression()]))];
+body)), b.identifier("call"), false), [b.thisExpression()]))];
     }
     sourceFile = module.file.clone();
     sourceFile.sourceMap = module.file.sourceMap;
@@ -406,13 +399,13 @@ body)), b.identifier(&#x22;call&#x22;), false), [b.thisExpression()]))];
         sourceMapWithCode: true,
         file: sourceFile.sourceMap.file
       });
-      sourceFile.contents = new Buffer(generatedCode.code, &#x22;utf8&#x22;);
+      sourceFile.contents = new Buffer(generatedCode.code, "utf8");
       vinylSourcemapsApply(sourceFile, generatedCode.map.toJSON());
     } else if (!options.preserveFiles) {
       sourceFile = module.file.clone();
       sourceFile.contents = new Buffer(escodegen.generate(ast, {
         comment: options.preserveComments
-      }), &#x22;utf8&#x22;);
+      }), "utf8");
     }
     this.push(sourceFile);
     return done();
@@ -452,10 +445,10 @@ WIP. Subject to change.
 
 ```js
 amdOptimize.src(
-  &#x22;index&#x22;,
+  "index",
   loader : amdOptimize.<span class="apidocCodeKeywordSpan">loader</span>(
     // Used for turning a moduleName into a filepath glob.
-    function (moduleName) { return &#x22;src/scripts/&#x22; + moduleName + &#x22;.coffee&#x22; },
+    function (moduleName) { return "src/scripts/" + moduleName + ".coffee" },
     // Returns a transform stream.
     function () { return coffee(); }
   )
@@ -497,7 +490,7 @@ amdOptimize.src(
     err = _error;
     if (err instanceof SyntaxError) {
       err.filename = file.path;
-      err.message += &#x22; in &#x22; + file.path;
+      err.message += " in " + file.path;
     }
     callback(err);
     return;
@@ -507,53 +500,53 @@ amdOptimize.src(
   walk.ancestor(ast, {
     CallExpression: function(node, state) {
       var defineAncestors, deps, isInsideDefine, moduleName;
-      if (node.callee.name === &#x22;define&#x22;) {
-        switch (node[&#x22;arguments&#x22;].length) {
+      if (node.callee.name === "define") {
+        switch (node["arguments"].length) {
           case 1:
-            if (node[&#x22;arguments&#x22;][0].type === &#x22;FunctionExpression&#x22; &#x26;&#x26; node[&#x22;arguments&#x22;][0].params.length &#x3e; 0) {
-              deps = [&#x27;require&#x27;, &#x27;exports&#x27;, &#x27;module&#x27;];
-              walk.simple(node[&#x22;arguments&#x22;][0], {
+            if (node["arguments"][0].type === "FunctionExpression" &amp;&amp; node["arguments"][0].params.length &gt; 0) {
+              deps = ['require', 'exports', 'module'];
+              walk.simple(node["arguments"][0], {
                 CallExpression: function(node) {
-                  if (node.callee.name === &#x22;require&#x22; || node.callee.name === &#x22;requirejs&#x22;) {
-                    return deps.push(node[&#x22;arguments&#x22;][0].value);
+                  if (node.callee.name === "require" || node.callee.name === "requirejs") {
+                    return deps.push(node["arguments"][0].value);
                   }
                 }
               });
             }
             break;
           case 2:
-            switch (node[&#x22;arguments&#x22;][0].type) {
-              case &#x22;Literal&#x22;:
-                moduleName = node[&#x22;arguments&#x22;][0].value;
+            switch (node["arguments"][0].type) {
+              case "Literal":
+                moduleName = node["arguments"][0].value;
                 break;
-              case &#x22;ArrayExpression&#x22;:
-                deps = valuesFromArrayExpression(node[&#x22;arguments&#x22;][0]);
+              case "ArrayExpression":
+                deps = valuesFromArrayExpression(node["arguments"][0]);
             }
             break;
           case 3:
-            moduleName = node[&#x22;arguments&#x22;][0].value;
-            deps = valuesFromArrayExpression(node[&#x22;arguments&#x22;][1]);
+            moduleName = node["arguments"][0].value;
+            deps = valuesFromArrayExpression(node["arguments"][1]);
         }
         definitions.push({
-          method: &#x22;define&#x22;,
+          method: "define",
           moduleName: moduleName,
           deps: deps != null ? deps : [],
-          argumentsLength: node[&#x22;arguments&#x22;].length,
+          argumentsLength: node["arguments"].length,
           node: node
         });
         isInsideDefine = true;
       }
-      if ((node.callee.name === &#x22;require&#x22; || node.callee.name === &#x22;requirejs&#x22;) &#x26;&#x26; node[&#x22;arguments&#x22;].length &#x3e; 0 &#x26;&#x26; node[&#x22;arguments
-&#x22;][0].type === &#x22;ArrayExpression&#x22;) {
+      if ((node.callee.name === "require" || node.callee.name === "requirejs") &amp;&amp; node["arguments"].length &gt; 0 &amp;&amp; node["arguments
+"][0].type === "ArrayExpression") {
         defineAncestors = _.any(state.slice(0, -1), function(ancestorNode) {
-          return ancestorNode.type === &#x22;CallExpression&#x22; &#x26;&#x26; (ancestorNode.callee.name === &#x22;define&#x22; || ancestorNode.callee.name === &#x22;
-require&#x22; || ancestorNode.callee.name === &#x22;requirejs&#x22;);
+          return ancestorNode.type === "CallExpression" &amp;&amp; (ancestorNode.callee.name === "define" || ancestorNode.callee.name === "
+require" || ancestorNode.callee.name === "requirejs");
         });
         if (config.findNestedDependencies || !defineAncestors) {
           return definitions.push({
-            method: &#x22;require&#x22;,
+            method: "require",
             moduleName: void 0,
-            deps: valuesFromArrayExpression(node[&#x22;arguments&#x22;][0]),
+            deps: valuesFromArrayExpression(node["arguments"][0]),
             node: node
           });
         }
@@ -600,17 +593,17 @@ try {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 ```js
-var gulp = require(&#x22;gulp&#x22;);
-var amdOptimize = require(&#x22;amd-optimize&#x22;);
-var concat = require(&#x27;gulp-concat&#x27;);
+var gulp = require("gulp");
+var amdOptimize = require("amd-optimize");
+var concat = require('gulp-concat');
 
-gulp.task(&#x22;scripts:index&#x22;, function () {
+gulp.task("scripts:index", function () {
 
-  return gulp.<span class="apidocCodeKeywordSpan">src</span>(&#x22;src/scripts/**/*.js&#x22;)
+  return gulp.<span class="apidocCodeKeywordSpan">src</span>("src/scripts/**/*.js")
     // Traces all modules and outputs them in the correct order.
-    .pipe(amdOptimize(&#x22;main&#x22;))
-    .pipe(concat(&#x22;index.js&#x22;))
-    .pipe(gulp.dest(&#x22;dist/scripts&#x22;));
+    .pipe(amdOptimize("main"))
+    .pipe(concat("index.js"))
+    .pipe(gulp.dest("dist/scripts"));
 
 });
 ```
@@ -634,15 +627,15 @@ gulp.task(&#x22;scripts:index&#x22;, function () {
   if (file) {
     return callback(null, file);
   } else {
-    return callback(new Error(&#x22;No file for module &#x27;&#x22; + moduleName + &#x22;&#x27; found.&#x22;));
+    return callback(new Error("No file for module '" + moduleName + "' found."));
   }
 }, function(file, callback) {
-  file.stringContents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>(&#x22;utf8&#x22;);
+  file.stringContents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>("utf8");
   if (isTextFile) {
-    file.stringContents = &#x27;define(function(){ return &#x27; + JSON.stringify(file.stringContents) + &#x27;; });&#x27;;
+    file.stringContents = 'define(function(){ return ' + JSON.stringify(file.stringContents) + '; });';
   }
   if (isJsonFile) {
-    file.stringContents = &#x27;define(function(){ return JSON.parse(&#x27; + JSON.stringify(file.stringContents) + &#x27;); });&#
+    file.stringContents = 'define(function(){ return JSON.parse(' + JSON.stringify(file.stringContents) + '); });&amp;#
 x27;;
   }
   module = new Module(moduleName, file);
@@ -670,19 +663,19 @@ x27;;
   resolveModuleName = function(moduleName, relativeTo) {
     var eligiblePath, isJson, isText, relativeToFileName, slashIdx;
     if (relativeTo == null) {
-      relativeTo = &#x22;&#x22;;
+      relativeTo = "";
     }
-    isText = moduleName.indexOf(&#x27;text!&#x27;) !== -1;
+    isText = moduleName.indexOf('text!') !== -1;
     if (isText) {
-      moduleName = moduleName.replace(&#x27;text!&#x27;, &#x27;&#x27;);
+      moduleName = moduleName.replace('text!', '');
     }
-    isJson = moduleName.indexOf(&#x27;json!&#x27;) !== -1;
+    isJson = moduleName.indexOf('json!') !== -1;
     if (isJson) {
-      moduleName = moduleName.replace(&#x27;json!&#x27;, &#x27;&#x27;);
+      moduleName = moduleName.replace('json!', '');
     }
-    if (config.paths &#x26;&#x26; !config.paths[moduleName]) {
-      slashIdx = moduleName.indexOf(&#x22;/&#x22;);
-      if (slashIdx &#x3e; 0) {
+    if (config.paths &amp;&amp; !config.paths[moduleName]) {
+      slashIdx = moduleName.indexOf("/");
+      if (slashIdx &gt; 0) {
         eligiblePath = config.paths[moduleName.substr(0, slashIdx)];
         if (eligiblePath) {
           moduleName = eligiblePath + moduleName.substr(slashIdx);
@@ -690,10 +683,10 @@ x27;;
       }
     }
     relativeToFileName = resolveModuleFileName(relativeTo);
-    if (moduleName[0] === &#x22;.&#x22;) {
+    if (moduleName[0] === ".") {
       moduleName = util.fixModuleName(path.join(path.dirname(relativeToFileName), moduleName));
     }
-    if (config.map &#x26;&#x26; config.map[relativeTo] &#x26;&#x26; config.map[relativeTo][moduleName]) {
+    if (config.map &amp;&amp; config.map[relativeTo] &amp;&amp; config.map[relativeTo][moduleName]) {
       moduleName = config.map[relativeTo][moduleName];
     }
     if (isText) {
@@ -705,7 +698,7 @@ x27;;
     return moduleName;
   };
   resolveModuleFileName = function(moduleName) {
-    if (config.paths &#x26;&#x26; config.paths[moduleName]) {
+    if (config.paths &amp;&amp; config.paths[moduleName]) {
       moduleName = config.paths[moduleName];
     }
     if (/!|^exports$|^require$|^module$|^empty:/.test(moduleName)) {
@@ -749,7 +742,7 @@ x27;;
       return;
     }
     if (_.contains(foundModuleNames, moduleName)) {
-      callback(new Error(&#x22;Circular dependency detected. Module &#x27;&#x22; + moduleName + &#x22;&#x27; has been processed before.&#x22;));
+      callback(new Error("Circular dependency detected. Module '" + moduleName + "' has been processed before."));
       return;
     } else {
       foundModuleNames.push(moduleName);
@@ -768,15 +761,15 @@ x27;;
         if (file) {
           return callback(null, file);
         } else {
-          return callback(new Error(&#x22;No file for module &#x27;&#x22; + moduleName + &#x22;&#x27; found.&#x22;));
+          return callback(new Error("No file for module '" + moduleName + "' found."));
         }
       }, function(file, callback) {
-        file.stringContents = file.contents.toString(&#x22;utf8&#x22;);
+        file.stringContents = file.contents.toString("utf8");
         if (isTextFile) {
-          file.stringContents = &#x27;define(function(){ return &#x27; + JSON.stringify(file.stringContents) + &#x27;; });&#x27;;
+          file.stringContents = 'define(function(){ return ' + JSON.stringify(file.stringContents) + '; });';
         }
         if (isJsonFile) {
-          file.stringContents = &#x27;define(function(){ return JSON.parse(&#x27; + JSON.stringify(file.stringContents) + &#x27;); });&#x27;;
+          file.stringContents = 'define(function(){ return JSON.parse(' + JSON.stringify(file.stringContents) + '); });';
         }
         module = new ...</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -815,17 +808,17 @@ x27;;
     delete module.file.ast;
     if (!module.hasDefine) {
       defineReturnStatement = b.returnStatement(module.exports ? b.identifier(module.exports) : null);
-      if (options.wrapShim &#x26;&#x26; module.isShimmed) {
+      if (options.wrapShim &amp;&amp; module.isShimmed) {
         defineBody = ast.body.concat([defineReturnStatement]);
       } else {
         defineBody = [defineReturnStatement];
       }
-      defineCall = b.callExpression(b.identifier(&#x22;define&#x22;), [
+      defineCall = b.callExpression(b.identifier("define"), [
         b.literal(module.name), b.arrayExpression(module.deps.map(function(dep) {
           return b.literal(dep.name);
         })), b.functionExpression(null, [], b.blockStatement(defineBody))
       ]);
-      if (options.wrapShim &#x26;&#x26; module.isShimmed) {
+      if (options.wrapShim &amp;&amp; module.isShimmed) {
         ast.body = [b.expressionStatement(defineCall)];
       } else {
         ast.body.push(b.expressionStatement(defineCall));
@@ -833,20 +826,20 @@ x27;;
     } else if (module.isAnonymous) {
       module.astNodes.forEach((function(_this) {
         return function(astNode) {
-          if (astNode.callee.name === &#x22;define&#x22; &#x26;&#x26; (astNode[&#x22;arguments&#x22;].length === 1 || (astNode[&#x22;arguments&#x22;].length === 2 &#x26;&#x26; astNode
-[&#x22;arguments&#x22;][0].type === &#x22;ArrayExpression&#x22;))) {
-            return astNode[&#x22;arguments&#x22;] = [
+          if (astNode.callee.name === "define" &amp;&amp; (astNode["arguments"].length === 1 || (astNode["arguments"].length === 2 &amp;&amp; astNode
+["arguments"][0].type === "ArrayExpression"))) {
+            return astNode["arguments"] = [
               b.literal(module.name), b.arrayExpression(module.deps.map(function(dep) {
                 return b.literal(dep.name);
-              })), _.last(astNode[&#x22;arguments&#x22;])
+              })), _.last(astNode["arguments"])
             ];
           }
         };
       })(this));
     }
-    if (module.hasDefine &#x26;&#x26; module.isShimmed) {
+    if (module.hasDefine &amp;&amp; module.isShimmed) {
       ast.body = [b.expressionStatement(b.callExpression(b.memberExpression(b.functionExpression(null, [], b.blockStatement(ast.
-body)), b.identifier(&#x22;call&#x22;), false), [b.thisExpression()]))];
+body)), b.identifier("call"), false), [b.thisExpression()]))];
     }
     sourceFile = module.file.clone();
     sourceFile.sourceMap = module.file.sourceMap;
@@ -857,13 +850,13 @@ body)), b.identifier(&#x22;call&#x22;), false), [b.thisExpression()]))];
         sourceMapWithCode: true,
         file: sourceFile.sourceMap.file
       });
-      sourceFile.contents = new Buffer(generatedCode.code, &#x22;utf8&#x22;);
+      sourceFile.contents = new Buffer(generatedCode.code, "utf8");
       vinylSourcemapsApply(sourceFile, generatedCode.map.toJSON());
     } else if (!options.preserveFiles) {
       sourceFile = module.file.clone();
       sourceFile.contents = new Buffer(escodegen.generate(ast, {
         comment: options.preserveComments
-      }), &#x22;utf8&#x22;);
+      }), "utf8");
     }
     this.push(sourceFile);
     return done();
@@ -908,10 +901,10 @@ WIP. Subject to change.
 
 ```js
 amdOptimize.src(
-  &#x22;index&#x22;,
+  "index",
   loader : amdOptimize.<span class="apidocCodeKeywordSpan">loader</span>(
     // Used for turning a moduleName into a filepath glob.
-    function (moduleName) { return &#x22;src/scripts/&#x22; + moduleName + &#x22;.coffee&#x22; },
+    function (moduleName) { return "src/scripts/" + moduleName + ".coffee" },
     // Returns a transform stream.
     function () { return coffee(); }
   )
@@ -958,7 +951,7 @@ amdOptimize.src(
     err = _error;
     if (err instanceof SyntaxError) {
       err.filename = file.path;
-      err.message += &#x22; in &#x22; + file.path;
+      err.message += " in " + file.path;
     }
     callback(err);
     return;
@@ -968,53 +961,53 @@ amdOptimize.src(
   walk.ancestor(ast, {
     CallExpression: function(node, state) {
       var defineAncestors, deps, isInsideDefine, moduleName;
-      if (node.callee.name === &#x22;define&#x22;) {
-        switch (node[&#x22;arguments&#x22;].length) {
+      if (node.callee.name === "define") {
+        switch (node["arguments"].length) {
           case 1:
-            if (node[&#x22;arguments&#x22;][0].type === &#x22;FunctionExpression&#x22; &#x26;&#x26; node[&#x22;arguments&#x22;][0].params.length &#x3e; 0) {
-              deps = [&#x27;require&#x27;, &#x27;exports&#x27;, &#x27;module&#x27;];
-              walk.simple(node[&#x22;arguments&#x22;][0], {
+            if (node["arguments"][0].type === "FunctionExpression" &amp;&amp; node["arguments"][0].params.length &gt; 0) {
+              deps = ['require', 'exports', 'module'];
+              walk.simple(node["arguments"][0], {
                 CallExpression: function(node) {
-                  if (node.callee.name === &#x22;require&#x22; || node.callee.name === &#x22;requirejs&#x22;) {
-                    return deps.push(node[&#x22;arguments&#x22;][0].value);
+                  if (node.callee.name === "require" || node.callee.name === "requirejs") {
+                    return deps.push(node["arguments"][0].value);
                   }
                 }
               });
             }
             break;
           case 2:
-            switch (node[&#x22;arguments&#x22;][0].type) {
-              case &#x22;Literal&#x22;:
-                moduleName = node[&#x22;arguments&#x22;][0].value;
+            switch (node["arguments"][0].type) {
+              case "Literal":
+                moduleName = node["arguments"][0].value;
                 break;
-              case &#x22;ArrayExpression&#x22;:
-                deps = valuesFromArrayExpression(node[&#x22;arguments&#x22;][0]);
+              case "ArrayExpression":
+                deps = valuesFromArrayExpression(node["arguments"][0]);
             }
             break;
           case 3:
-            moduleName = node[&#x22;arguments&#x22;][0].value;
-            deps = valuesFromArrayExpression(node[&#x22;arguments&#x22;][1]);
+            moduleName = node["arguments"][0].value;
+            deps = valuesFromArrayExpression(node["arguments"][1]);
         }
         definitions.push({
-          method: &#x22;define&#x22;,
+          method: "define",
           moduleName: moduleName,
           deps: deps != null ? deps : [],
-          argumentsLength: node[&#x22;arguments&#x22;].length,
+          argumentsLength: node["arguments"].length,
           node: node
         });
         isInsideDefine = true;
       }
-      if ((node.callee.name === &#x22;require&#x22; || node.callee.name === &#x22;requirejs&#x22;) &#x26;&#x26; node[&#x22;arguments&#x22;].length &#x3e; 0 &#x26;&#x26; node[&#x22;arguments
-&#x22;][0].type === &#x22;ArrayExpression&#x22;) {
+      if ((node.callee.name === "require" || node.callee.name === "requirejs") &amp;&amp; node["arguments"].length &gt; 0 &amp;&amp; node["arguments
+"][0].type === "ArrayExpression") {
         defineAncestors = _.any(state.slice(0, -1), function(ancestorNode) {
-          return ancestorNode.type === &#x22;CallExpression&#x22; &#x26;&#x26; (ancestorNode.callee.name === &#x22;define&#x22; || ancestorNode.callee.name === &#x22;
-require&#x22; || ancestorNode.callee.name === &#x22;requirejs&#x22;);
+          return ancestorNode.type === "CallExpression" &amp;&amp; (ancestorNode.callee.name === "define" || ancestorNode.callee.name === "
+require" || ancestorNode.callee.name === "requirejs");
         });
         if (config.findNestedDependencies || !defineAncestors) {
           return definitions.push({
-            method: &#x22;require&#x22;,
+            method: "require",
             moduleName: void 0,
-            deps: valuesFromArrayExpression(node[&#x22;arguments&#x22;][0]),
+            deps: valuesFromArrayExpression(node["arguments"][0]),
             node: node
           });
         }
@@ -1066,17 +1059,17 @@ try {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 ```js
-var gulp = require(&#x22;gulp&#x22;);
-var amdOptimize = require(&#x22;amd-optimize&#x22;);
-var concat = require(&#x27;gulp-concat&#x27;);
+var gulp = require("gulp");
+var amdOptimize = require("amd-optimize");
+var concat = require('gulp-concat');
 
-gulp.task(&#x22;scripts:index&#x22;, function () {
+gulp.task("scripts:index", function () {
 
-  return gulp.<span class="apidocCodeKeywordSpan">src</span>(&#x22;src/scripts/**/*.js&#x22;)
+  return gulp.<span class="apidocCodeKeywordSpan">src</span>("src/scripts/**/*.js")
     // Traces all modules and outputs them in the correct order.
-    .pipe(amdOptimize(&#x22;main&#x22;))
-    .pipe(concat(&#x22;index.js&#x22;))
-    .pipe(gulp.dest(&#x22;dist/scripts&#x22;));
+    .pipe(amdOptimize("main"))
+    .pipe(concat("index.js"))
+    .pipe(gulp.dest("dist/scripts"));
 
 });
 ```
@@ -1103,15 +1096,15 @@ gulp.task(&#x22;scripts:index&#x22;, function () {
   if (file) {
     return callback(null, file);
   } else {
-    return callback(new Error(&#x22;No file for module &#x27;&#x22; + moduleName + &#x22;&#x27; found.&#x22;));
+    return callback(new Error("No file for module '" + moduleName + "' found."));
   }
 }, function(file, callback) {
-  file.stringContents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>(&#x22;utf8&#x22;);
+  file.stringContents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>("utf8");
   if (isTextFile) {
-    file.stringContents = &#x27;define(function(){ return &#x27; + JSON.stringify(file.stringContents) + &#x27;; });&#x27;;
+    file.stringContents = 'define(function(){ return ' + JSON.stringify(file.stringContents) + '; });';
   }
   if (isJsonFile) {
-    file.stringContents = &#x27;define(function(){ return JSON.parse(&#x27; + JSON.stringify(file.stringContents) + &#x27;); });&#
+    file.stringContents = 'define(function(){ return JSON.parse(' + JSON.stringify(file.stringContents) + '); });&amp;#
 x27;;
   }
   module = new Module(moduleName, file);
@@ -1144,19 +1137,19 @@ x27;;
   resolveModuleName = function(moduleName, relativeTo) {
     var eligiblePath, isJson, isText, relativeToFileName, slashIdx;
     if (relativeTo == null) {
-      relativeTo = &#x22;&#x22;;
+      relativeTo = "";
     }
-    isText = moduleName.indexOf(&#x27;text!&#x27;) !== -1;
+    isText = moduleName.indexOf('text!') !== -1;
     if (isText) {
-      moduleName = moduleName.replace(&#x27;text!&#x27;, &#x27;&#x27;);
+      moduleName = moduleName.replace('text!', '');
     }
-    isJson = moduleName.indexOf(&#x27;json!&#x27;) !== -1;
+    isJson = moduleName.indexOf('json!') !== -1;
     if (isJson) {
-      moduleName = moduleName.replace(&#x27;json!&#x27;, &#x27;&#x27;);
+      moduleName = moduleName.replace('json!', '');
     }
-    if (config.paths &#x26;&#x26; !config.paths[moduleName]) {
-      slashIdx = moduleName.indexOf(&#x22;/&#x22;);
-      if (slashIdx &#x3e; 0) {
+    if (config.paths &amp;&amp; !config.paths[moduleName]) {
+      slashIdx = moduleName.indexOf("/");
+      if (slashIdx &gt; 0) {
         eligiblePath = config.paths[moduleName.substr(0, slashIdx)];
         if (eligiblePath) {
           moduleName = eligiblePath + moduleName.substr(slashIdx);
@@ -1164,10 +1157,10 @@ x27;;
       }
     }
     relativeToFileName = resolveModuleFileName(relativeTo);
-    if (moduleName[0] === &#x22;.&#x22;) {
+    if (moduleName[0] === ".") {
       moduleName = util.fixModuleName(path.join(path.dirname(relativeToFileName), moduleName));
     }
-    if (config.map &#x26;&#x26; config.map[relativeTo] &#x26;&#x26; config.map[relativeTo][moduleName]) {
+    if (config.map &amp;&amp; config.map[relativeTo] &amp;&amp; config.map[relativeTo][moduleName]) {
       moduleName = config.map[relativeTo][moduleName];
     }
     if (isText) {
@@ -1179,7 +1172,7 @@ x27;;
     return moduleName;
   };
   resolveModuleFileName = function(moduleName) {
-    if (config.paths &#x26;&#x26; config.paths[moduleName]) {
+    if (config.paths &amp;&amp; config.paths[moduleName]) {
       moduleName = config.paths[moduleName];
     }
     if (/!|^exports$|^require$|^module$|^empty:/.test(moduleName)) {
@@ -1223,7 +1216,7 @@ x27;;
       return;
     }
     if (_.contains(foundModuleNames, moduleName)) {
-      callback(new Error(&#x22;Circular dependency detected. Module &#x27;&#x22; + moduleName + &#x22;&#x27; has been processed before.&#x22;));
+      callback(new Error("Circular dependency detected. Module '" + moduleName + "' has been processed before."));
       return;
     } else {
       foundModuleNames.push(moduleName);
@@ -1242,15 +1235,15 @@ x27;;
         if (file) {
           return callback(null, file);
         } else {
-          return callback(new Error(&#x22;No file for module &#x27;&#x22; + moduleName + &#x22;&#x27; found.&#x22;));
+          return callback(new Error("No file for module '" + moduleName + "' found."));
         }
       }, function(file, callback) {
-        file.stringContents = file.contents.toString(&#x22;utf8&#x22;);
+        file.stringContents = file.contents.toString("utf8");
         if (isTextFile) {
-          file.stringContents = &#x27;define(function(){ return &#x27; + JSON.stringify(file.stringContents) + &#x27;; });&#x27;;
+          file.stringContents = 'define(function(){ return ' + JSON.stringify(file.stringContents) + '; });';
         }
         if (isJsonFile) {
-          file.stringContents = &#x27;define(function(){ return JSON.parse(&#x27; + JSON.stringify(file.stringContents) + &#x27;); });&#x27;;
+          file.stringContents = 'define(function(){ return JSON.parse(' + JSON.stringify(file.stringContents) + '); });';
         }
         module = new ...</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -1271,10 +1264,10 @@ x27;;
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">fixModuleName = function (moduleName) {
-  return moduleName.replace(/\\/g, &#x27;/&#x27;);
+  return moduleName.replace(/\\/g, '/');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-util = require(&#x22;./util&#x22;);
+util = require("./util");
 
 Module = (function() {
   function Module(name, file1, deps1) {
@@ -1303,7 +1296,7 @@ Module = (function() {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">logger = function () {
   return through.obj(function(file, enc, callback) {
-    console.log(&#x22;&#x3e;&#x3e;&#x22;, path.relative(process.cwd(), file.path));
+    console.log("&gt;&gt;", path.relative(process.cwd(), file.path));
     return callback(null, file);
   });
 }</pre></li>
@@ -1322,15 +1315,15 @@ Module = (function() {
     <li>description and source-code<pre class="apidocCodePre">printTree = function (currentModule, prefix) {
   var depPrefix;
   if (prefix == null) {
-    prefix = &#x22;&#x22;;
+    prefix = "";
   }
-  console.log(prefix, currentModule.name, &#x22;(&#x22; + (path.relative(process.cwd(), currentModule.file.relative)) + &#x22;)&#x22;);
-  depPrefix = prefix.replace(&#x22;├&#x22;, &#x22;|&#x22;).replace(&#x22;└&#x22;, &#x22; &#x22;).replace(/─/g, &#x22; &#x22;);
+  console.log(prefix, currentModule.name, "(" + (path.relative(process.cwd(), currentModule.file.relative)) + ")");
+  depPrefix = prefix.replace("â”œ", "|").replace("â””", " ").replace(/â”€/g, " ");
   return currentModule.deps.forEach(function(depModule, i) {
-    if (i + 1 &#x3c; currentModule.deps.length) {
-      return printTree(depModule, depPrefix + &#x22; ├──&#x22;);
+    if (i + 1 &lt; currentModule.deps.length) {
+      return printTree(depModule, depPrefix + " â”œâ”€â”€");
     } else {
-      return printTree(depModule, depPrefix + &#x22; └──&#x22;);
+      return printTree(depModule, depPrefix + " â””â”€â”€");
     }
   });
 }</pre></li>
@@ -1346,3 +1339,4 @@ Module = (function() {
     ]
 </div>
 </div>
+</body></html>
