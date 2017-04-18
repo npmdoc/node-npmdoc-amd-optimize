@@ -1,9 +1,14 @@
-# api documentation for  [amd-optimize (v0.6.1)](https://github.com/scalableminds/amd-optimize#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-amd-optimize.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-amd-optimize) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-amd-optimize.svg)](https://travis-ci.org/npmdoc/node-npmdoc-amd-optimize)
+# npmdoc-amd-optimize
+
+#### api documentation for  [amd-optimize (v0.6.1)](https://github.com/scalableminds/amd-optimize#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-amd-optimize.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-amd-optimize) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-amd-optimize.svg)](https://travis-ci.org/npmdoc/node-npmdoc-amd-optimize)
+
 #### An AMD (i.e. RequireJS) optimizer that's stream-friendly. Made for gulp. (WIP)
 
-[![NPM](https://nodei.co/npm/amd-optimize.png?downloads=true)](https://www.npmjs.com/package/amd-optimize)
+[![NPM](https://nodei.co/npm/amd-optimize.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/amd-optimize)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-amd-optimize_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-amd-optimize/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-amd-optimize/build/screenCapture.npmPackageListing.svg)
 
@@ -18,7 +23,6 @@
 {
     "author": {
         "name": "Norman Rzepka",
-        "email": "norman@scm.io",
         "url": "http://scm.io"
     },
     "bugs": {
@@ -63,13 +67,11 @@
     "main": "lib/index.js",
     "maintainers": [
         {
-            "name": "normanrz",
-            "email": "norman@scm.io"
+            "name": "normanrz"
         }
     ],
     "name": "amd-optimize",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git://github.com/scalableminds/amd-optimize.git"
@@ -79,168 +81,6 @@
     },
     "version": "0.6.1"
 }
-```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module amd-optimize](#apidoc.module.amd-optimize)
-1.  [function <span class="apidocSignatureSpan">amd-optimize.</span>loader (filenameResolver, pipe)](#apidoc.element.amd-optimize.loader)
-1.  [function <span class="apidocSignatureSpan">amd-optimize.</span>src (moduleName, options)](#apidoc.element.amd-optimize.src)
-1.  object <span class="apidocSignatureSpan">amd-optimize.</span>util
-
-#### [module amd-optimize.util](#apidoc.module.amd-optimize.util)
-1.  [function <span class="apidocSignatureSpan">amd-optimize.util.</span>fixModuleName (moduleName)](#apidoc.element.amd-optimize.util.fixModuleName)
-1.  [function <span class="apidocSignatureSpan">amd-optimize.util.</span>logger ()](#apidoc.element.amd-optimize.util.logger)
-1.  [function <span class="apidocSignatureSpan">amd-optimize.util.</span>printTree (currentModule, prefix)](#apidoc.element.amd-optimize.util.printTree)
-
-
-
-# <a name="apidoc.module.amd-optimize"></a>[module amd-optimize](#apidoc.module.amd-optimize)
-
-#### <a name="apidoc.element.amd-optimize.loader"></a>[function <span class="apidocSignatureSpan">amd-optimize.</span>loader (filenameResolver, pipe)](#apidoc.element.amd-optimize.loader)
-- description and source-code
-```javascript
-loader = function (filenameResolver, pipe) {
-  return function(moduleName, callback) {
-    var filename, source;
-    if (filenameResolver) {
-      filename = filenameResolver(moduleName);
-    } else {
-      filename = moduleName;
-    }
-    source = vinylFs.src(filename).pipe(through.obj());
-    if (pipe) {
-      source = source.pipe(pipe());
-    }
-    firstChunk(source, callback);
-  };
-}
-```
-- example usage
-```shell
-...
-
-#### options.loader
-WIP. Subject to change.
-
-'''js
-amdOptimize.src(
-  "index",
-  loader : amdOptimize.loader(
-    // Used for turning a moduleName into a filepath glob.
-    function (moduleName) { return "src/scripts/" + moduleName + ".coffee" },
-    // Returns a transform stream.
-    function () { return coffee(); }
-  )
-)
-'''
-...
-```
-
-#### <a name="apidoc.element.amd-optimize.src"></a>[function <span class="apidocSignatureSpan">amd-optimize.</span>src (moduleName, options)](#apidoc.element.amd-optimize.src)
-- description and source-code
-```javascript
-src = function (moduleName, options) {
-  var source;
-  source = rjs(moduleName, options);
-  process.nextTick(function() {
-    return source.end();
-  });
-  return source;
-}
-```
-- example usage
-```shell
-...
-'''js
-var gulp = require("gulp");
-var amdOptimize = require("amd-optimize");
-var concat = require('gulp-concat');
-
-gulp.task("scripts:index", function () {
-
-  return gulp.src("src/scripts/**/*.js")
-    // Traces all modules and outputs them in the correct order.
-    .pipe(amdOptimize("main"))
-    .pipe(concat("index.js"))
-    .pipe(gulp.dest("dist/scripts"));
-
-});
-'''
-...
-```
-
-
-
-# <a name="apidoc.module.amd-optimize.util"></a>[module amd-optimize.util](#apidoc.module.amd-optimize.util)
-
-#### <a name="apidoc.element.amd-optimize.util.fixModuleName"></a>[function <span class="apidocSignatureSpan">amd-optimize.util.</span>fixModuleName (moduleName)](#apidoc.element.amd-optimize.util.fixModuleName)
-- description and source-code
-```javascript
-fixModuleName = function (moduleName) {
-  return moduleName.replace(/\\/g, '/');
-}
-```
-- example usage
-```shell
-...
-util = require("./util");
-
-Module = (function() {
-  function Module(name, file1, deps1) {
-    this.name = name;
-    this.file = file1;
-    this.deps = deps1 != null ? deps1 : [];
-    this.name = util.fixModuleName(this.name);
-    this.isShallow = false;
-    this.isShimmed = false;
-    this.isAnonymous = false;
-    this.isInline = false;
-    this.hasDefine = false;
-    this.astNodes = [];
-  }
-...
-```
-
-#### <a name="apidoc.element.amd-optimize.util.logger"></a>[function <span class="apidocSignatureSpan">amd-optimize.util.</span>logger ()](#apidoc.element.amd-optimize.util.logger)
-- description and source-code
-```javascript
-logger = function () {
-  return through.obj(function(file, enc, callback) {
-    console.log(">>", path.relative(process.cwd(), file.path));
-    return callback(null, file);
-  });
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.amd-optimize.util.printTree"></a>[function <span class="apidocSignatureSpan">amd-optimize.util.</span>printTree (currentModule, prefix)](#apidoc.element.amd-optimize.util.printTree)
-- description and source-code
-```javascript
-printTree = function (currentModule, prefix) {
-  var depPrefix;
-  if (prefix == null) {
-    prefix = "";
-  }
-  console.log(prefix, currentModule.name, "(" + (path.relative(process.cwd(), currentModule.file.relative)) + ")");
-  depPrefix = prefix.replace("├", "|").replace("└", " ").replace(/─/g, " ");
-  return currentModule.deps.forEach(function(depModule, i) {
-    if (i + 1 < currentModule.deps.length) {
-      return printTree(depModule, depPrefix + " ├──");
-    } else {
-      return printTree(depModule, depPrefix + " └──");
-    }
-  });
-}
-```
-- example usage
-```shell
-n/a
 ```
 
 
